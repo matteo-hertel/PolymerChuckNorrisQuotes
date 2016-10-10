@@ -15,7 +15,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="./app-data.html">
+<link rel="import" href="./log-out.html">
 
 
 <dom-module id="register-login">
@@ -46,7 +48,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div id="authenticated" hidden$="[[!storedUser.loggedin]]">
             <h2>Hello, [[storedUser.name]]!</h2>
             <p>You are currently logged in. You can access <a href="/secret-quotes">Secret Quotes</a>!</p>
-        </div>
+            <log-out stored-user="{{storedUser}}"></log-out>
+</div>
     <div id="unauthenticated"  hidden$="[[storedUser.loggedin]]">
         <h1>Log In</h1>
 
@@ -73,6 +76,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <iron-ajax id="registerLoginAjax" method="post" content-type="application/json" handle-as="text" on-response="handleUserResponse" on-error="handleUserError"></iron-ajax>
     <iron-localstorage name="user-storage" value="{{storedUser}}"></iron-localstorage>
     <app-location route="{{route}}"></app-location>
+    <app-data key="userData" data="{{storedUser}}"></app-data>
     </template>
 
     <script>
@@ -102,7 +106,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     };
 
                     // redirect to Secret Quotes
-                            this.set('route.path', '/secret-quotes');
+                    this.set('route.path', '/secret-quotes');
                 }
 
                 // reset form data
